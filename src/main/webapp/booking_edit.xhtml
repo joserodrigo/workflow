@@ -1,0 +1,59 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	template="/template/main.xhtml">
+
+	<ui:define name="body">
+		<h:form prependId="false">
+
+			<p:toolbar>
+				<p:toolbarGroup align="left">
+					<p:commandButton value="#{messages['button.save']}" action="#{bookingEditMB.insert}"
+						rendered="#{!bookingEditMB.updateMode}" ajax="false" />
+					<p:commandButton value="#{messages['button.save']}" action="#{bookingEditMB.update}"
+						rendered="#{bookingEditMB.updateMode}" ajax="false" />
+					<p:commandButton value="#{messages['button.delete']}" onclick="confirmation.show()"
+						rendered="#{bookingEditMB.updateMode}" type="button" immediate="true" ajax="false" />
+					<p:confirmDialog message="#{messages['label.confirm.delete']}" showEffect="bounce" hideEffect="explode"
+						header="#{messages['label.dialog.delete']}" severity="alert" widgetVar="confirmation">
+						<h:commandButton value="#{messages['button.dialog.yes']}" action="#{bookingEditMB.delete}" immediate="true"
+							ajax="false" />
+						<h:commandButton value="#{messages['button.dialog.no']}" onclick="confirmation.hide()" type="button" />
+					</p:confirmDialog>
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<br />
+
+			<p:fieldset legend="#{messages['booking.label']}" toggleable="true" toggleSpeed="500">
+				<h:panelGrid id="fields" columns="3">
+					
+					<h:outputLabel value="#{messages['booking.label.bookingId']}: " for="bookingId" styleClass="text-input" />
+					<h:inputText id="bookingId" value="#{bookingEditMB.bean.bookingId}"
+						title="#{messages['booking.alt.bookingId']}" />
+					<p:message for="bookingId" />
+					
+					<h:outputLabel value="#{messages['booking.label.annl']}: " for="annl" styleClass="text-input" />
+					<h:inputText id="annl" value="#{bookingEditMB.bean.annl}"
+						title="#{messages['booking.alt.annl']}" />
+					<p:message for="annl" />
+					
+					<h:outputLabel value="#{messages['booking.label.date']}: " for="date" styleClass="text-input" />
+					<p:calendar id="date" value="#{bookingEditMB.bean.date}"
+					   pattern="#{messages['label.date.pattern']}" navigator="true" showButtonPanel="true"
+					   locale="#{currentLocale}" title="#{messages['booking.alt.date']}" />
+					<p:message for="date" />
+								
+					<h:outputLabel value="#{messages['booking.label.time']}: " for="time" styleClass="text-input" />
+					<h:inputText id="time" value="#{bookingEditMB.bean.time}"
+						title="#{messages['booking.alt.time']}" />
+					<p:message for="time" />
+					
+				</h:panelGrid>
+			</p:fieldset>
+		</h:form>
+	</ui:define>
+</ui:composition>
